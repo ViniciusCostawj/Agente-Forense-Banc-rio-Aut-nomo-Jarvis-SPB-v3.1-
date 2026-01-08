@@ -87,6 +87,7 @@ Infraestrutura: Docker, Docker Compose.
 
 ```bash
 docker-compose up --build
+ ```
 🧠 Exemplo de Fluxo (Workflow)
 1. Investigação Forense
 Entrada: E000123456789... (Cole o ID da transação)
@@ -117,8 +118,6 @@ Saída:
 Tabela formatada com os resultados.
 
 📂 Estrutura do Projeto
-Plaintext
-
 .
 ├── agente_spb.py      # Core do LangGraph (Nodes, Edges, Lógica)
 ├── Jarvis_ui.py       # Interface TUI (Textual + AsyncIO)
@@ -126,4 +125,7 @@ Plaintext
 ├── .env               # Configurações (Não versionado)
 └── README.md          # Documentação
 Autor
-Desenvolvido por Vinicius Costa Engenheiro de Software & IA | Especialista em Automação Bancária
+Desenvolvido por Vinicius Costa
+
+
+Engenheiro de Software & IA | Especialista em Automação Bancária
