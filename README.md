@@ -48,41 +48,46 @@ Dados: PostgreSQL (psycopg2), Pandas, lxml.
 
 Infraestrutura: Docker, Docker Compose.
 
-📦 Instalação e Uso
-Pré-requisitos
-Python 3.10+ ou Docker.
+## 📦 Instalação e Uso
 
-Ollama rodando localmente (ollama run llama3).
+### Pré-requisitos
+* **Python 3.10+** ou **Docker**.
+* [Ollama](https://ollama.com/) rodando localmente (`ollama run llama3`).
+* Acesso a um banco PostgreSQL (ou ajuste o `.env` para seu ambiente).
 
-Acesso a um banco PostgreSQL (ou ajuste o .env para seu ambiente).
+### Opção A: Rodando Localmente
 
-Opção A: Rodando Localmente
-Clone o repositório:
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/SeuUsuario/jarvis-spb.git](https://github.com/SeuUsuario/jarvis-spb.git)
+    cd jarvis-spb
+    ```
 
-Bash
+2.  **Configure o ambiente:**
+    Crie um arquivo `.env` na raiz:
+    ```env
+    DB_HOST=localhost
+    DB_NAME=spb_database
+    DB_USER=postgres
+    DB_PASSWORD=sua_senha
+    OLLAMA_BASE_URL=http://localhost:11434
+    ```
 
-git clone [https://github.com/SeuUsuario/jarvis-spb.git](https://github.com/SeuUsuario/jarvis-spb.git)
-cd jarvis-spb
-Configure o ambiente: Crie um arquivo .env na raiz:
+3.  **Instale as dependências:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Snippet de código
+4.  **Execute o Jarvis:**
+    ```bash
+    python Jarvis_ui.py
+    ```
 
-DB_HOST=localhost
-DB_NAME=spb_database
-DB_USER=postgres
-DB_PASSWORD=sua_senha
-OLLAMA_BASE_URL=http://localhost:11434
-Instale as dependências:
+### Opção B: Via Docker
 
-Bash
+``bash
 
-pip install -r requirements.txt
-Execute o Jarvis:
-
-Bash
-
-python Jarvis_ui.py
-Opção B: Via Docker
+docker-compose up --build
 Bash
 
 docker-compose up --build
