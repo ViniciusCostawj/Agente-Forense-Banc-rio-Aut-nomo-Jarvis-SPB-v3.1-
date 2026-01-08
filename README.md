@@ -39,6 +39,7 @@ graph TD;
     G --> H["Extrator XML (lxml)"];
     H --> I[Cálculo de SLA];
     I --> J["Auditor IA (Llama 3)"];
+    
 Componentes Chave:
 Router Node: Usa Regex para detectar se a entrada é um comando SQL ou uma investigação de ID (NUOP).
 
