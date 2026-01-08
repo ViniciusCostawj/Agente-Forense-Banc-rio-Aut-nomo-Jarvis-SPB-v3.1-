@@ -40,7 +40,7 @@ graph TD;
     G --> H["Extrator XML (lxml)"];
     H --> I[Cálculo de SLA];
     I --> J["Auditor IA (Llama 3)"];
-    
+
 Componentes Chave:
 Router Node: Usa Regex para detectar se a entrada é um comando SQL ou uma investigação de ID (NUOP).
 
@@ -72,7 +72,7 @@ Clone o repositório:
 
 Bash
 
-git clone [https://github.com/SeuUsuario/jarvis-spb.git](https://github.com/SeuUsuario/jarvis-spb.git)
+git clone https://github.com/SeuUsuario/jarvis-spb.git
 cd jarvis-spb
 Configure o ambiente: Crie um arquivo .env na raiz:
 
@@ -99,7 +99,9 @@ Bash
 docker-compose up --build
 🧠 Exemplo de Fluxo (Workflow)
 1. Investigação Forense
-Entrada: E000123456789... (Cole o ID da transação) Ação do Jarvis:
+Entrada: E000123456789... (Cole o ID da transação)
+
+Ação do Jarvis:
 
 Rastreia a mensagem em 4 tabelas diferentes.
 
@@ -110,7 +112,9 @@ Lê o XML e encontra <RsnDesc>Saldo Insuficiente</RsnDesc>.
 Saída: Relatório técnico explicando que a falha foi de negócio, apesar da lentidão sistêmica.
 
 2. Análise de Dados (SQL)
-Entrada: "Quantas mensagens tiveram timeout nas últimas 2 horas?" Ação do Jarvis:
+Entrada: "Quantas mensagens tiveram timeout nas últimas 2 horas?"
+
+Ação do Jarvis:
 
 Traduz para: SELECT count(*) FROM spi.operacao WHERE statusop = 205 ...
 
