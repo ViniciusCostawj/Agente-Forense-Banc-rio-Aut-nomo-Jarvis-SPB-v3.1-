@@ -1,135 +1,213 @@
-# 🛡️ Jarvis SPB: Agente Forense Bancário (v3.1)
+# 🛡️ Jarvis SPB — Agente Forense Bancário (v3.1)
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
 ![LangGraph](https://img.shields.io/badge/LangGraph-Orchestration-orange?style=for-the-badge)
 ![Textual](https://img.shields.io/badge/Interface-TUI-green?style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-blue?style=for-the-badge&logo=docker)
 
-> **Sistema Autônomo de Observabilidade e Forense Bancária** capaz de diagnosticar falhas em transações (PIX/SPB), calcular SLA em tempo real e converter linguagem natural em SQL complexo.
-
-![Interface Jarvis TUI](jarvis_ui.png)
-*(Interface TUI desenvolvida com Python Textual: Monitoramento em Tempo Real e IA Local)*
+> **Sistema Autônomo de Observabilidade e Forense Bancária** voltado para ambientes SPB/PIX, capaz de diagnosticar falhas transacionais, calcular SLA em tempo real e converter linguagem natural em SQL complexo de forma segura.
 
 ---
 
-## 🚀 Visão Geral (v3.1)
+## 📌 Visão Geral
 
-O **Jarvis SPB** não é apenas um chatbot; é uma ferramenta de engenharia projetada para ambientes de missão crítica. Ele resolve o problema da **"Fadiga de Alertas"** e da análise manual de logs XML em bancos, automatizando a investigação de incidentes.
+O **Jarvis SPB** não é um simples chatbot, mas sim uma **ferramenta de engenharia forense** projetada para ambientes bancários de missão crítica.  
+Seu objetivo é reduzir drasticamente o tempo de investigação de incidentes, eliminando análise manual de logs XML, consultas repetitivas e fadiga operacional.
 
-### Diferenciais de Engenharia:
-* **🧠 Orquestração via LangGraph:** Arquitetura baseada em Grafos de Estado (`StateGraph`). O agente possui loops de **Self-Correction** (auto-correção), permitindo que ele corrija sua própria sintaxe SQL caso o banco retorne erro.
-* **⚡ Parser XML Híbrido:** Substituição de Regex por `lxml` com tratamento robusto de *Namespaces* (ISO 20022), garantindo extração precisa de causas-raiz em mensagens do Bacen.
-* **⏱️ SLA Determinístico:** O cálculo de latência (`ts_consumo` - `ts_entrega`) é realizado via Python puro, garantindo precisão matemática e alertas automáticos de gargalos (>10s).
-* **🖥️ Interface TUI & Voz:** Interface gráfica de terminal (Textual) para operação em servidores *headless*, com feedback de voz (`pyttsx3`) para alertas críticos.
+O sistema atua de forma **autônoma**, interpretando perguntas técnicas ou identificadores de transações (NUOP), investigando múltiplas tabelas, analisando mensagens ISO 20022 e entregando relatórios técnicos claros e auditáveis.
 
 ---
 
-## ⚙️ Arquitetura do Sistema
+## 🚀 Principais Funcionalidades
 
-O sistema opera através de um grafo de decisão autônomo:
+### 🧠 Orquestração Inteligente com LangGraph
+- Arquitetura baseada em **StateGraph**
+- Fluxos determinísticos com loops de **auto-correção**
+- Reexecução automática de SQL em caso de erro de sintaxe
+
+### ⚡ Investigação Forense Automatizada
+- Rastreamento de transações SPB/PIX via NUOP
+- Cruzamento entre tabelas **real-time** e **legado**
+- Consolidação de dados via CTEs
+
+### 🧾 Parser XML ISO 20022
+- Extração precisa com `lxml`
+- Tratamento robusto de *Namespaces*
+- Identificação de causas-raiz (`<RsnDesc>`, códigos e descrições)
+
+### ⏱️ Cálculo de SLA Determinístico
+- Cálculo preciso de latência (`ts_consumo - ts_entrega`)
+- Alertas automáticos para violações (>10s)
+- Independente de funções do banco
+
+### 🖥️ Interface TUI + Feedback por Voz
+- Interface de terminal desenvolvida com **Textual**
+- Operação em servidores *headless*
+- Alertas críticos com **pyttsx3**
+
+---
+
+## 🧩 Arquitetura do Sistema
+
+O Jarvis opera através de um **grafo de decisão autônomo**:
 
 ```mermaid
 graph TD;
     A[Input do Usuário] --> B{Router Inteligente};
-    B -- "Pergunta Genérica" --> C["Gerador SQL Blindado"];
-    B -- "ID Transação (NUOP)" --> D["Investigador Forense"];
+    B -- Pergunta Genérica --> C[Gerador SQL Blindado];
+    B -- NUOP --> D[Investigador Forense];
     C --> E[Executor SQL];
-    E -- "Erro Sintaxe" --> C;
-    E -- "Sucesso" --> F[Formatador de Dados];
-    D --> G["Scanner Multi-Tabelas"];
-    G --> H["Extrator XML (lxml)"];
-    H --> I[Cálculo de SLA];
-    I --> J["Auditor IA (Llama 3)"];
+    E -- Erro --> C;
+    E -- Sucesso --> F[Formatador];
+    D --> G[Scanner Multi-Tabelas];
+    G --> H[Extrator XML];
+    H --> I[Cálculo SLA];
+    I --> J[Auditor IA];
 
-Componentes Chave:
-Router Node: Usa Regex para detectar se a entrada é um comando SQL ou uma investigação de ID (NUOP).
+Componentes-chave
 
-Text-to-SQL Blindado: Injeta o schema do banco e regras de negócio no contexto do LLM para evitar alucinações.
+Router Node: Identifica se a entrada é uma consulta analítica ou investigação forense
 
-Investigador Forense: Cruza dados de tabelas Real-time (spi.operacao) e Legado (spi.legado) em uma única view via CTEs.
+Text-to-SQL Blindado: Injeta schema e regras de negócio para evitar alucinações
+
+Investigador Forense: Consolida dados operacionais e legados em uma única visão
 
 🛠️ Stack Tecnológico
-Core: Python 3.10+, AsyncIO.
+Core
 
-IA & Agentes: LangChain, LangGraph, Ollama (Llama 3 Local).
+Python 3.10+
 
-Interface: Textual (TUI), Pyttsx3 (Voice).
+AsyncIO
 
-Dados: PostgreSQL (psycopg2), Pandas, lxml.
+IA & Agentes
 
-Infraestrutura: Docker, Docker Compose.
+LangChain
 
-📦 Instalação e Uso
+LangGraph
+
+Ollama (Llama 3 Local)
+
+Interface
+
+Textual (TUI)
+
+Pyttsx3 (Text-to-Speech)
+
+Dados
+
+PostgreSQL
+
+Psycopg2
+
+Pandas
+
+lxml
+
+Infraestrutura
+
+Docker
+
+Docker Compose
+
+📦 Instalação e Execução
 Pré-requisitos
-Python 3.10+ ou Docker.
 
-Ollama rodando localmente (ollama run llama3).
+Python 3.10+ ou Docker
 
-Acesso a um banco PostgreSQL (ou ajuste o .env para seu ambiente).
+Ollama rodando localmente:
 
-Opção A: Rodando Localmente
+ollama run llama3
+
+
+Acesso a um banco PostgreSQL
+
+🔹 Opção A — Execução Local
+
 Clone o repositório:
-
-Bash
 
 git clone https://github.com/SeuUsuario/jarvis-spb.git
 cd jarvis-spb
-Configure o ambiente: Crie um arquivo .env na raiz:
 
-Snippet de código
+
+Crie o arquivo .env:
 
 DB_HOST=localhost
 DB_NAME=spb_database
 DB_USER=postgres
 DB_PASSWORD=sua_senha
 OLLAMA_BASE_URL=http://localhost:11434
+
+
 Instale as dependências:
 
-Bash
-
 pip install -r requirements.txt
-Execute o Jarvis:
 
-Bash
+
+Execute o sistema:
 
 python Jarvis_ui.py
-Opção B: Via Docker
-Bash
 
+🔹 Opção B — Docker
 docker-compose up --build
-🧠 Exemplo de Fluxo (Workflow)
-1. Investigação Forense
-Entrada: E000123456789... (Cole o ID da transação)
+
+🧠 Exemplos de Uso
+1️⃣ Investigação Forense (NUOP)
+
+Entrada:
+
+E000123456789...
+
+
+Ações executadas:
+
+Busca em múltiplas tabelas
+
+Detecção de latência de 12s
+
+Leitura do XML
+
+Identificação de:
+
+<RsnDesc>Saldo Insuficiente</RsnDesc>
+
+
+Saída:
+
+Relatório técnico indicando falha de negócio, apesar de degradação sistêmica.
+
+2️⃣ Análise Analítica (SQL)
+
+Entrada:
+
+Quantas mensagens tiveram timeout nas últimas 2 horas?
+
 
 Ação do Jarvis:
 
-Rastreia a mensagem em 4 tabelas diferentes.
+SELECT COUNT(*) 
+FROM spi.operacao 
+WHERE statusop = 205 
+AND ts_inclusao >= now() - interval '2 hours';
 
-Detecta lentidão de 12 segundos no legado.
 
-Lê o XML e encontra <RsnDesc>Saldo Insuficiente</RsnDesc>.
+Saída:
 
-Saída: Relatório técnico explicando que a falha foi de negócio, apesar da lentidão sistêmica.
+Tabela formatada
 
-2. Análise de Dados (SQL)
-Entrada: "Quantas mensagens tiveram timeout nas últimas 2 horas?"
-
-Ação do Jarvis:
-
-Traduz para: SELECT count(*) FROM spi.operacao WHERE statusop = 205 ...
-
-Executa a query com segurança (Read-Only).
-
-Saída: Tabela formatada com os resultados.
+Execução segura (Read-Only)
 
 📂 Estrutura do Projeto
-Plaintext
-
 .
-├── agente_spb.py      # Core do LangGraph (Nodes, Edges, Lógica)
+├── agente_spb.py      # Core do LangGraph (nós, estados e regras)
 ├── Jarvis_ui.py       # Interface TUI (Textual + AsyncIO)
-├── requirements.txt   # Dependências
-├── .env               # Configurações (Não versionado)
+├── requirements.txt   # Dependências do projeto
+├── .env               # Variáveis de ambiente (não versionado)
 └── README.md          # Documentação
-Autor
-Desenvolvido por Vinicius Costa Engenheiro de Software & IA | Especialista em Automação Bancária
+
+👨‍💻 Autor
+
+Vinicius Costa
+Engenheiro de Software & IA
+Especialista em Automação, Observabilidade e Forense Bancária
+
+🔗 GitHub: https://github.com/ViniciusCostawj
