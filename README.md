@@ -28,6 +28,7 @@ O **Jarvis SPB** não é apenas um chatbot; é uma ferramenta de engenharia proj
 
 O sistema opera através de um grafo de decisão autônomo:
 
+```mermaid
 graph TD;
     A[Input do Usuário] --> B{Router Inteligente};
     B -- "Pergunta Genérica" --> C["Gerador SQL Blindado"];
