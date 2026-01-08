@@ -28,18 +28,17 @@ O **Jarvis SPB** não é apenas um chatbot; é uma ferramenta de engenharia proj
 
 O sistema opera através de um grafo de decisão autônomo:
 
-```mermaid
 graph TD;
     A[Input do Usuário] --> B{Router Inteligente};
-    B -- "Pergunta Genérica" --> C[Gerador SQL Blindado];
-    B -- "ID Transação (NUOP)" --> D[Investigador Forense];
+    B -- "Pergunta Genérica" --> C["Gerador SQL Blindado"];
+    B -- "ID Transação (NUOP)" --> D["Investigador Forense"];
     C --> E[Executor SQL];
     E -- "Erro Sintaxe" --> C;
     E -- "Sucesso" --> F[Formatador de Dados];
-    D --> G[Scanner Multi-Tabelas];
-    G --> H[Extrator XML (lxml)];
+    D --> G["Scanner Multi-Tabelas"];
+    G --> H["Extrator XML (lxml)"];
     H --> I[Cálculo de SLA];
-    I --> J[Auditor IA (Llama 3)];
+    I --> J["Auditor IA (Llama 3)"];
 Componentes Chave:
 Router Node: Usa Regex para detectar se a entrada é um comando SQL ou uma investigação de ID (NUOP).
 
