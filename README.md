@@ -85,7 +85,7 @@ Infraestrutura: Docker, Docker Compose.
 
 ### Opção B: Via Docker
 
-``bash
+```bash
 
 docker-compose up --build
 Bash
