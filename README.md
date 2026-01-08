@@ -73,23 +73,20 @@ ts_consumo - ts_entrega
 
 ## 🧩 Arquitetura do Sistema
 
-### 🔁 Grafo de Decisão Autônomo (Mermaid corrigido)
+### 🔁 Grafo de Decisão Autônomo
 
-```mermaid
+
 graph TD
-  A[Entrada do Usuário] --> B[Roteador Inteligente]
-
-  B -->|Pergunta Analítica| C[Gerar SQL]
-  B -->|NUOP| D[Investigar NUOP]
-
-  C --> E[Executar SQL]
-  E -->|Erro SQL| C
-  E -->|Sucesso| F[Fim]
-
-  D --> G{NUOP Encontrado?}
-  G -->|Não| F
-  G -->|Sim| H[Análise Forense]
-  H --> F
+    A[Entrada do Usuário] --> B[Roteador Inteligente]
+    B -->|SQL| C[Gerar SQL]
+    B -->|NUOP| D[Investigar NUOP]
+    C --> E[Executar SQL]
+    E -->|Erro| C
+    E -->|Sucesso| F[Fim]
+    D --> G{NUOP Encontrado?}
+    G -->|Sim| H[Análise Forense]
+    G -->|Não| F
+    H --> F
 
 Componentes Reais (do código)
 
