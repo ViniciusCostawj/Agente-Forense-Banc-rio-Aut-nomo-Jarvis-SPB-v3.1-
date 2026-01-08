@@ -117,13 +117,17 @@ Saída:
 
 Tabela formatada com os resultados.
 
-📂 Estrutura do Projeto
+## 📂 Estrutura do Projeto
+
+```text
 .
 ├── agente_spb.py      # Core do LangGraph (Nodes, Edges, Lógica)
 ├── Jarvis_ui.py       # Interface TUI (Textual + AsyncIO)
 ├── requirements.txt   # Dependências
 ├── .env               # Configurações (Não versionado)
 └── README.md          # Documentação
+````
+
 Autor
 Desenvolvido por Vinicius Costa
 
