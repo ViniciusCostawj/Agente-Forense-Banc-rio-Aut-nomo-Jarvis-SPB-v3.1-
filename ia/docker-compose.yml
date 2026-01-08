@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app-jarvis:
+    build: .
+    container_name: spb_jarvis
+    stdin_open: true
+    tty: true       
+    
+    volumes:
+      - .:/app
+    
+    env_file:
+      - .env
+    
+    # --- MUDANÇA AQUI ---
+    # 1. Desative (comente) o modo host, pois ele pode isolar o container dentro do Linux
+    # network_mode: "host" 
+    
+    # 2. Ative esta seção. Ela cria explicitamente o endereço "host.docker.internal"
+    # apontando para o gateway da sua máquina Windows.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
