@@ -128,8 +128,10 @@ Tabela formatada com os resultados.
 └── README.md          # Documentação
 ````
 
-Autor
-Desenvolvido por Vinicius Costa
-
-
-Engenheiro de Software & IA | Especialista em Automação Bancária
+### Autor
+**Desenvolvido por Vinicius Costa**
+<br>
+*Engenheiro de Software & IA | Especialista em Automação Bancária*
+<br>
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin)](https://linkedin.com/in/vinicius-costa-20a196214)
+[![Portfólio](https://img.shields.io/badge/Portfolio-Visit-purple?style=flat&logo=github)](https://viniciuscostawj.github.io)
