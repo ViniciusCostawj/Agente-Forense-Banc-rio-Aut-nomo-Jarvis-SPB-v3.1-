@@ -77,6 +77,7 @@ ts_consumo - ts_entrega
 
 
 graph TD
+    
     A[Entrada do Usuário] --> B[Roteador Inteligente]
     B -->|SQL| C[Gerar SQL]
     B -->|NUOP| D[Investigar NUOP]
