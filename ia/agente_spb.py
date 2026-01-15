@@ -28,69 +28,22 @@ DB_CONFIG = {
 CTE_UNIVERSAL = """
 WITH view_universal AS (
     SELECT 
-        'SPI' as origem, msgid, codmsg, nuop, statusop, 
+        'PIX' as origem, msgid, codmsg, nuop, statusop, 
         CAST(statusmsg AS INTEGER) as statusmsg, 
         COALESCE(sitlanc, 'N/A') as sitlanc, 
         ts_inclusao, msgop 
-    FROM spi.operacao
+    FROM pix.operacao
     UNION ALL
     SELECT 
-        'SPB' as origem, msgid, codmsg, nuop, statusop, 
+        'STR' as origem, msgid, codmsg, nuop, statusop, 
         CAST(statusmsg AS INTEGER) as statusmsg, 
         'N/A' as sitlanc, 
         ts_inclusao, msgop 
-    FROM spb.operacao
+    FROM STR.operacao
 )
 """
 
-# --- DICIONÁRIO MESTRE (FONTE REAL: IMAGEM DO SISTEMA) ---
-GLOSSARIO_SPB = """
-📌 MAPA DE STATUS DO SISTEMA (Consulta Obrigatória):
 
---- FAIXA 100: FLUXO DE ENVIO (Coluna: statusop) ---
-100: ENVIO_PILOTO_AUTORIZADOR (Início do fluxo)
-101: ENVIO_PROCESSAR
-103: ENVIO_PROCESSANDO_PILOTO_AUTORIZADOR
-104: ENVIO_ENCRIPTAR
-105: ENVIO_PRONTO_PARA_ENVIAR
-106: ENVIO_MSG_ENVIADA (Saiu da aplicação)
-107: ENVIO_ERRO_IF
-108: ENVIO_MSG_RECUSADA (⚠️ Falha no envio)
-109: ENVIO_ESPERANDO_ENCRIPTAR
-110: ENVIO_MSG_AGENDADA
-111: ENVIO_RECUSADA_SITE
-112: ENVIO_MSG_AGENDADA_REMOVIDA
-
---- FAIXA 200: FLUXO DE RECEBIMENTO/COMUNICAÇÃO (Coluna: statusop) ---
-201: RECEBTO_DECRIPTAR
-202: RECEBTO_DECRIPTADO
-203: RECEBTO_VERIFICADO
-204: RECEBTO_CONSOLIDADO
-205: RECEBTO_ERRO_BACEN (⚠️ Timeout / Erro de Comunicação com BC)
-206: RECEBTO_ESPERANDO_DECRIPTAR
-
---- FAIXA 300: RESULTADOS DE NEGÓCIO E FINALIZAÇÃO (Coluna: statusmsg) ---
-301: PROCESSANDO
-302: OK (✅ Sucesso / Liquidado)
-303: ERRO (Genérico)
-304: ERRO_JA_ENVIADO
-305: RESPOSTA_A_TERCEIROS
-306: INFORMATIVO
-307: AVISO
-308: ERRO_NAO_DEFINIDO
-309: ENVIADO_A_CAMARA
-310: RESPOSTA_A_QUARTOS
-311: ANULADO
-312: AGUARDANDO_LIBERACAO_PILOTO
-313: AGUARDANDO_LIBERACAO_AUTORIZADOR
-314: INFORMATIVO_CM
-315: AGENDADO
-316: ENCRIPTAR
-317: DECRIPTAR
-318: RECEBIDO_PELA_CAMARA
-319: REJEITADO_PELO_PILOTO (❌ Erro de Regra/Sintaxe no Piloto)
-320: REJEITADO_PELO_AUTORIZADOR (❌ Saldo/Bloqueio/Conta Inválida)
-"""
 
 # --- 1. ESTADO DO AGENTE ---
 class AgentState(TypedDict):
@@ -332,12 +285,12 @@ def node_investigar_nuop(state: AgentState):
     query = f"""
     WITH 
     spi_op AS (
-        SELECT 'spi.operacao' as origem, msgid, nuop, codmsg, statusop, statusmsg, sitlanc, ts_inclusao, msgop, NULL::timestamp as ts_entrega, NULL::timestamp as ts_consumo
-        FROM spi.operacao WHERE nuop LIKE '%{nuop_safe}%'
+        SELECT 'PIX.operacao' as origem, msgid, nuop, codmsg, statusop, statusmsg, sitlanc, ts_inclusao, msgop, NULL::timestamp as ts_entrega, NULL::timestamp as ts_consumo
+        FROM PIX.operacao WHERE nuop LIKE '%{nuop_safe}%'
     ),
     spi_leg AS (
-        SELECT 'spi.legado', L.msgid, O.nuop, O.codmsg, NULL::smallint, NULL::smallint, NULL, L.ts_inclusao, O.msgop, L.ts_entrega, L.ts_consumo
-        FROM spi.legado L JOIN spi.operacao O ON L.msgid = O.msgid WHERE O.nuop LIKE '%{nuop_safe}%'
+        SELECT 'PIX.legado', L.msgid, O.nuop, O.codmsg, NULL::smallint, NULL::smallint, NULL, L.ts_inclusao, O.msgop, L.ts_entrega, L.ts_consumo
+        FROM PIX.legado L JOIN spi.operacao O ON L.msgid = O.msgid WHERE O.nuop LIKE '%{nuop_safe}%'
     ),
     spb_op AS (
         SELECT 'spb.operacao', msgid, nuop, codmsg, statusop, statusmsg, NULL, ts_inclusao, msgop, NULL::timestamp, NULL::timestamp
@@ -465,5 +418,6 @@ workflow.add_conditional_edges(
     check_sql_status,
     {"retry": "gerar_sql", "success": END, "give_up": END}
 )
+
 
 app = workflow.compile()
